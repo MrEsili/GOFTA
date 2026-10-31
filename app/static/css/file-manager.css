@@ -1,0 +1,12 @@
+.file-manager{display:grid;gap:12px;min-width:0}
+.file-manager-usage{margin:0;padding:10px 12px;border-radius:10px;background:var(--surface-soft)}
+.file-manager-list{display:grid;gap:9px;max-height:58vh;overflow:auto}
+.file-manager-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px}
+.file-manager-details{display:grid;gap:4px;min-width:0}
+.file-manager-name{overflow-wrap:anywhere}
+.file-manager-details .muted{font-size:12px}
+.file-manager-controls{display:flex;flex-wrap:wrap;align-items:center;gap:7px;flex-shrink:0}
+.file-manager-download{display:inline-flex;align-items:center;justify-content:center}
+.file-manager-empty{text-align:center;padding:20px}
+.file-manager-open{width:100%}
+@media(max-width:520px){.file-manager-row{align-items:flex-start;flex-direction:column}.file-manager-controls{width:100%}}

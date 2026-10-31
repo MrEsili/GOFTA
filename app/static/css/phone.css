@@ -1,0 +1,7 @@
+.phone-actions{display:flex;flex-wrap:wrap;gap:8px;width:100%}
+.phone-actions button{flex:1 1 auto}
+.phone-status,.phone-hint{margin:0;text-align:start}
+.phone-status{color:var(--accent)}
+.test-code{direction:ltr;text-align:center;letter-spacing:.08em}
+.menu-profile-copy small:empty{display:none}
+.auth-form input[type=tel]{direction:ltr;text-align:left}

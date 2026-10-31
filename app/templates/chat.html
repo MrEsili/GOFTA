@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app-shell" id="app">
+  <aside class="sidebar">
+    <header class="sidebar-header">
+      <button class="icon-button menu-button" id="menu-button" aria-label="منو">☰</button>
+      <div class="brand"><strong>گفتا</strong></div>
+    </header>
+    <div class="search-wrap"><span>⌕</span><input id="chat-search" placeholder="جست‌وجو در گفتگوها" autocomplete="off"></div>
+    <nav class="category-tabs" aria-label="دسته‌بندی گفتگوها">
+      <button class="category active" data-filter="all"><span class="category-icon" aria-hidden="true">▦</span><span class="category-label">همه</span></button>
+      <button class="category" data-filter="unread"><span class="category-icon" aria-hidden="true">●</span><span class="category-label">خوانده‌نشده</span></button>
+      <button class="category" data-filter="direct"><span class="category-icon" aria-hidden="true">♙</span><span class="category-label">شخصی</span></button>
+      <button class="category" data-filter="group"><span class="category-icon" aria-hidden="true">♟</span><span class="category-label">گروه‌ها</span></button>
+      <button class="category" data-filter="channel"><span class="category-icon" aria-hidden="true">▤</span><span class="category-label">کانال‌ها</span></button>
+      <button class="category" data-filter="bot"><span class="category-icon" aria-hidden="true">⌘</span><span class="category-label">ربات‌ها</span></button>
+      <button class="category" data-filter="saved"><span class="category-icon" aria-hidden="true">☆</span><span class="category-label">ذخیره‌شده</span></button>
+    </nav>
+    <div class="chat-list" id="chat-list"></div>
+    <footer class="sidebar-footer">
+      <div class="sidebar-quick-actions">
+        <button class="quick-action" id="edit-profile-bottom" type="button" title="ویرایش پروفایل" aria-label="ویرایش پروفایل">
+          <span aria-hidden="true">✎</span>
+        </button>
+      </div>
+    </footer>
+  </aside>
+  <main class="chat-panel">
+    <section class="empty-state" id="empty-state">
+      <div class="empty-art"><span>✦</span><i>◌</i></div>
+      <h2>گفت‌وگوی شما، همین‌جاست</h2><p>یک گفتگو از فهرست انتخاب کنید یا گفت‌وگوی تازه‌ای بسازید.</p>
+      <button class="primary-button compact" id="empty-new-chat">شروع گفت‌وگوی تازه</button>
+    </section>
+    <section class="conversation-view hidden" id="conversation-view">
+      <header class="conversation-header">
+        <button class="icon-button back-button" id="back-button" aria-label="بازگشت">‹</button>
+        <button class="conversation-person" id="conversation-info">
+          <span class="avatar" id="conversation-avatar">گ</span>
+          <span><strong id="conversation-title"></strong><small id="conversation-subtitle"></small></span>
+        </button>
+        <div class="header-actions">
+          <button class="icon-button" id="members-button" title="اعضا">♙</button>
+          <button class="icon-button" id="conversation-image-button" title="تغییر تصویر">▧</button>
+        </div>
+      </header>
+      <div class="messages-area" id="messages-area"><div class="messages-list" id="messages-list"></div></div>
+      <div class="upload-status hidden" id="upload-status"><span id="upload-preview"></span><button id="cancel-upload" class="icon-button">×</button></div>
+      <form class="composer" id="message-form">
+        <input id="media-file" type="file" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,video/x-m4v" hidden>
+        <button type="button" class="icon-button attach-button" id="attach-button" title="افزودن عکس یا ویدئو">＋</button>
+        <textarea id="message-text" rows="1" maxlength="4000" placeholder="پیامی بنویسید…" aria-label="متن پیام"></textarea>
+        <button class="send-button" id="send-button" type="submit" aria-label="ارسال">➤</button>
+      </form>
+    </section>
+  </main>
+</div>
+<div class="toast-region" id="toast-region" aria-live="polite"></div>
+<div class="modal-backdrop hidden" id="modal-backdrop">
+  <section class="modal" id="modal" role="dialog" aria-modal="true">
+    <header class="modal-header"><h2 id="modal-title"></h2><button class="icon-button" id="modal-close">×</button></header>
+    <div class="modal-content" id="modal-content"></div>
+  </section>
+</div>
+<div class="menu-backdrop hidden" id="menu-backdrop">
+  <section class="hamburger-menu" role="dialog" aria-modal="true" aria-label="منوی اصلی">
+    <header class="menu-profile">
+      <span class="avatar" id="menu-avatar">A</span>
+      <span class="menu-profile-copy"><strong id="menu-name"></strong><small id="menu-phone"></small><small id="menu-username"></small></span>
+      <button class="icon-button menu-close" id="menu-close" aria-label="بستن منو">×</button>
+    </header>
+    <nav class="menu-navigation">
+      <button class="menu-action" id="menu-my-profile"><span aria-hidden="true">♙</span><span id="menu-profile-label">پروفایل من</span></button>
+      <button class="menu-action" id="menu-new-group"><span aria-hidden="true">♟</span><span id="menu-new-group-label">ایجاد گروه</span></button>
+      <button class="menu-action" id="menu-new-channel"><span aria-hidden="true">▤</span><span id="menu-new-channel-label">ایجاد کانال</span></button>
+      <button class="menu-action" id="menu-contacts"><span aria-hidden="true">♙</span><span id="menu-contacts-label">مخاطبین</span></button>
+      <button class="menu-action" id="menu-saved"><span aria-hidden="true">☆</span><span id="menu-saved-label">پیام‌های ذخیره‌شده</span></button>
+      <button class="menu-action" id="menu-settings"><span aria-hidden="true">⚙</span><span id="menu-settings-label">تنظیمات</span></button>
+      <button class="menu-action menu-night-action" id="menu-night-mode" role="switch" aria-checked="false">
+        <span aria-hidden="true">☾</span><span id="menu-night-label">حالت شب</span>
+        <span class="menu-switch-track" aria-hidden="true"><span></span></span>
+      </button>
+    </nav>
+    <div class="hamburger-menu-spacer"></div>
+    <footer class="menu-footer"><span>GOFTA · گفتا</span><small>پیام‌رسان شخصی</small></footer>
+  </section>
+</div>
+<div class="lightbox hidden" id="lightbox"><button id="lightbox-close" class="icon-button">×</button><div id="lightbox-content"></div></div>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+{% endblock %}

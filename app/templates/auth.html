@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block body %}
+<main class="auth-screen">
+  <section class="auth-card">
+    <div class="brand-mark">G</div>
+    <p class="eyebrow">GOFTA · گفتا</p>
+    <h1>{{ 'ورود به حساب' if mode == 'login' else 'ساخت حساب کاربری' }}</h1>
+    <p class="muted">{{ 'گفت‌وگوهای شما، در یک جای امن و ساده.' if mode == 'login' else 'به گفتا خوش آمدید. ساخت حساب رایگان است.' }}</p>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}<div class="notice error">{{ message }}</div>{% endfor %}
+    {% endwith %}
+    {% if otp_challenge|default(false) %}
+    <p class="muted">کد شش‌رقمی ورود برای {{ phone }} را وارد کنید.</p>
+    {% if test_code %}<div class="notice test-code">کد آزمایشی: <strong>{{ test_code }}</strong></div>{% endif %}
+    <form method="post" class="auth-form">
+      <input type="hidden" name="csrf_token" value="{{ session.get('_csrf_token', '') }}">
+      <input type="hidden" name="action" value="verify_phone_login">
+      <input type="hidden" name="challenge_id" value="{{ challenge_id }}">
+      <label>کد تأیید پیامکی<input name="code" inputmode="numeric" pattern="[0-9۰-۹]{6}" maxlength="6" autocomplete="one-time-code" required></label>
+      <button class="primary-button" type="submit">تأیید و ورود</button>
+    </form>
+    {% else %}
+    <form method="post" class="auth-form">
+      <input type="hidden" name="csrf_token" value="{{ session.get('_csrf_token', '') }}">
+      {% if mode == 'register' %}
+      <label>نام نمایشی<input name="display_name" maxlength="60" autocomplete="name" required></label>
+      {% endif %}
+      <label>{{ 'نام کاربری یا شماره تلفن' if mode == 'login' else 'نام کاربری' }}<input name="username" minlength="3" maxlength="30" autocomplete="username" placeholder="{{ '+989123456789' if mode == 'login' }}" required></label>
+      {% if mode == 'register' %}
+      <label>شماره تلفن (اختیاری)<input name="phone" type="tel" autocomplete="tel" placeholder="+989123456789"></label>
+      {% endif %}
+      <label>گذرواژه<input name="password" type="password" minlength="8" autocomplete="{{ 'new-password' if mode == 'register' else 'current-password' }}" required></label>
+      <button class="primary-button" type="submit">{{ 'ورود' if mode == 'login' else 'ثبت‌نام' }}</button>
+    </form>
+    <p class="auth-switch">{{ 'حساب ندارید؟' if mode == 'login' else 'قبلاً ثبت‌نام کرده‌اید؟' }}
+      <a href="{{ url_for('auth.register' if mode == 'login' else 'auth.login') }}">{{ 'ثبت‌نام' if mode == 'login' else 'ورود' }}</a>
+    </p>
+    {% endif %}
+  </section>
+</main>
+{% endblock %}
