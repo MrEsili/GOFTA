@@ -1,0 +1,19 @@
+.hamburger-menu{padding:0 18px 18px;background:var(--surface)}
+.menu-profile{min-height:146px;margin:0;padding:24px 2px 16px;border:0;border-bottom:1px solid var(--line);border-radius:0;display:grid;grid-template-columns:48px minmax(0,1fr) 36px;align-content:center;gap:12px;background:transparent}
+.menu-profile>.avatar{width:48px;height:48px}
+.menu-profile-copy{gap:5px}
+.menu-profile-copy strong{font-size:14px}
+.menu-profile-copy small{font-size:12px}
+.menu-close{width:34px;height:34px;border-radius:50%;font-size:21px}
+.menu-navigation{gap:0;margin-top:0}
+.menu-action{min-height:46px;padding:0 2px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent;gap:14px;font-size:13px}
+.menu-action:hover{border-color:var(--line);color:var(--accent)}
+.menu-action span:first-child{width:22px;font-size:19px;text-align:center}
+.menu-night-action{cursor:pointer}
+.menu-switch-track{width:30px;height:17px;margin-inline-start:auto;padding:2px;border-radius:10px;background:var(--line);transition:background .15s}
+.menu-switch-track span{display:block;width:13px;height:13px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px #0003;transition:transform .15s}
+.menu-night-action[aria-checked=true] .menu-switch-track{background:var(--accent)}
+.menu-night-action[aria-checked=true] .menu-switch-track span{transform:translateX(13px)}
+html[dir=rtl] .menu-night-action[aria-checked=true] .menu-switch-track span{transform:translateX(-13px)}
+.menu-footer{display:grid;gap:4px;padding-top:16px;color:var(--muted);font-size:12px}
+.menu-footer small{font-size:11px}

@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="{{ current_user.language if current_user.is_authenticated else 'fa' }}" dir="{{ 'rtl' if current_user.is_authenticated and current_user.language == 'fa' else 'ltr' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ session.get('_csrf_token', '') }}">
+  <title>GOFTA | گفتا</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/file-manager.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/ui-icons.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/menu-redesign.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/contacts.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/phone.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+</head>
+<body data-theme="{{ current_user.theme if current_user.is_authenticated else 'light' }}">
+  {% block body %}{% endblock %}
+</body>
+</html>
